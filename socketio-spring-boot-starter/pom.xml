@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <groupId>cn.felord</groupId>
+    <artifactId>socketio-spring-boot-starter</artifactId>
+    <version>1.0.0.RELEASE</version>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.felord</groupId>
+                <artifactId>socktio-spring-boot</artifactId>
+                <version>1.0.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.felord</groupId>
+            <artifactId>socketio-spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

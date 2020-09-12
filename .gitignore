@@ -1,0 +1,3 @@
+# Project exclude paths
+/socketio-spring-boot-starter/target/
+/socktio-spring-boot-autoconfigure/target/
