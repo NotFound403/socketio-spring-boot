@@ -1,6 +1,7 @@
 package cn.felord.socketio.configure;
 
 import cn.felord.socketio.server.ConfigurableSocketIOServerFactory;
+import cn.felord.socketio.server.SocketIOServerLifecycle;
 import com.corundumstudio.socketio.AuthorizationListener;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -52,6 +54,7 @@ public class SocketIOConfiguration {
      *
      * @param websocketProperties   the websocket properties
      * @param authorizationListener the authorization listener
+     * @param storeFactory          the store factory
      * @return the configurable socket io server factory
      */
     @Bean
@@ -64,6 +67,17 @@ public class SocketIOConfiguration {
 
         configurableSocketIOServerFactory.setConfiguration(configuration);
         return configurableSocketIOServerFactory;
+    }
+
+    /**
+     * Socket io server lifecycle smart lifecycle.
+     *
+     * @param socketIOServer the socket io server
+     * @return the smart lifecycle
+     */
+    @Bean
+    public SmartLifecycle socketIOServerLifecycle(SocketIOServer socketIOServer){
+        return new SocketIOServerLifecycle(socketIOServer);
     }
 
     /**
