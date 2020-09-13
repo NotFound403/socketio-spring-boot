@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Bean;
  * @since 2020 /9/11 22:55
  */
 @Slf4j
-@org.springframework.context.annotation.Configuration(proxyBeanMethods = false)
+@org.springframework.context.annotation.Configuration
 @EnableConfigurationProperties({WebsocketProperties.class})
 public class SocketIOConfiguration {
 
