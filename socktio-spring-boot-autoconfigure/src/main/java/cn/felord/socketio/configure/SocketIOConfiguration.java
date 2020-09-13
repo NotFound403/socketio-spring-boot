@@ -10,6 +10,7 @@ import com.corundumstudio.socketio.handler.SuccessAuthorizationListener;
 import com.corundumstudio.socketio.store.MemoryStoreFactory;
 import com.corundumstudio.socketio.store.StoreFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
@@ -24,6 +25,7 @@ import org.springframework.context.annotation.Bean;
  */
 @Slf4j
 @org.springframework.context.annotation.Configuration
+
 @EnableConfigurationProperties({WebsocketProperties.class})
 public class SocketIOConfiguration {
 
@@ -49,49 +51,18 @@ public class SocketIOConfiguration {
         return new MemoryStoreFactory();
     }
 
+
     /**
-     * Socket io server configurable socket io server factory.
+     * Init socket io configuration configuration.
      *
      * @param websocketProperties   the websocket properties
      * @param authorizationListener the authorization listener
      * @param storeFactory          the store factory
-     * @return the configurable socket io server factory
+     * @return the configuration
      */
     @Bean
-    public ConfigurableSocketIOServerFactory socketIOServer(WebsocketProperties websocketProperties, AuthorizationListener authorizationListener,StoreFactory storeFactory) {
-        ConfigurableSocketIOServerFactory configurableSocketIOServerFactory = new ConfigurableSocketIOServerFactory();
-
-        Configuration configuration = initSocketIOConfiguration(websocketProperties);
-        configuration.setAuthorizationListener(authorizationListener);
-        configuration.setStoreFactory(storeFactory);
-
-        configurableSocketIOServerFactory.setConfiguration(configuration);
-        return configurableSocketIOServerFactory;
-    }
-
-    /**
-     * Socket io server lifecycle smart lifecycle.
-     *
-     * @param socketIOServer the socket io server
-     * @return the smart lifecycle
-     */
-    @Bean
-    public SmartLifecycle socketIOServerLifecycle(SocketIOServer socketIOServer){
-        return new SocketIOServerLifecycle(socketIOServer);
-    }
-
-    /**
-     * Spring annotation scanner spring annotation scanner.
-     *
-     * @param socketIOServer the socket io server
-     * @return the spring annotation scanner
-     */
-    @Bean
-    public SpringAnnotationScanner springAnnotationScanner(SocketIOServer socketIOServer) {
-        return new SpringAnnotationScanner(socketIOServer);
-    }
-
-    private static Configuration initSocketIOConfiguration(WebsocketProperties websocketProperties) {
+    @Qualifier("socketIOConfiguration")
+    public Configuration initSocketIOConfiguration(WebsocketProperties websocketProperties, AuthorizationListener authorizationListener, StoreFactory storeFactory) {
 
         Configuration configuration = new Configuration();
 
@@ -127,6 +98,47 @@ public class SocketIOConfiguration {
         propertyMapper.from(websocketProperties.getHttpCompression()).to(configuration::setHttpCompression);
         propertyMapper.from(websocketProperties.getWebsocketCompression()).to(configuration::setWebsocketCompression);
         propertyMapper.from(websocketProperties.getRandomSession()).to(configuration::setRandomSession);
+
+        configuration.setAuthorizationListener(authorizationListener);
+        configuration.setStoreFactory(storeFactory);
+
         return configuration;
+    }
+
+
+    /**
+     * Socket io server configurable socket io server factory.
+     *
+     * @param configuration the configuration
+     * @return the configurable socket io server factory
+     */
+    @Bean
+    public ConfigurableSocketIOServerFactory socketIOServer(Configuration configuration) {
+        ConfigurableSocketIOServerFactory configurableSocketIOServerFactory = new ConfigurableSocketIOServerFactory();
+
+        configurableSocketIOServerFactory.setConfiguration(configuration);
+        return configurableSocketIOServerFactory;
+    }
+
+    /**
+     * Socket io server lifecycle smart lifecycle.
+     *
+     * @param socketIOServer the socket io server
+     * @return the smart lifecycle
+     */
+    @Bean
+    public SmartLifecycle socketIOServerLifecycle(SocketIOServer socketIOServer) {
+        return new SocketIOServerLifecycle(socketIOServer);
+    }
+
+    /**
+     * Spring annotation scanner spring annotation scanner.
+     *
+     * @param socketIOServer the socket io server
+     * @return the spring annotation scanner
+     */
+    @Bean
+    public SpringAnnotationScanner springAnnotationScanner(SocketIOServer socketIOServer) {
+        return new SpringAnnotationScanner(socketIOServer);
     }
 }
