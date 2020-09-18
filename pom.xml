@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.felord</groupId>
-    <artifactId>socktio-spring-boot</artifactId>
+    <artifactId>socketio-spring-boot</artifactId>
     <version>1.0.0.RELEASE</version>
     <packaging>pom</packaging>
     <properties>
@@ -19,7 +19,7 @@
         <socketio-netty.version>1.7.18</socketio-netty.version>
     </properties>
     <modules>
-        <module>socktio-spring-boot-autoconfigure</module>
+        <module>socketio-spring-boot-autoconfigure</module>
         <module>socketio-spring-boot-starter</module>
     </modules>
 
