@@ -12,7 +12,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.felord</groupId>
-                <artifactId>socktio-spring-boot</artifactId>
+                <artifactId>socketio-spring-boot</artifactId>
                 <version>1.0.0.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
