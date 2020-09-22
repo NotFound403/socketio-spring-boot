@@ -25,7 +25,6 @@ import org.springframework.context.annotation.Bean;
  */
 @Slf4j
 @org.springframework.context.annotation.Configuration
-
 @EnableConfigurationProperties({WebsocketProperties.class})
 public class SocketIOConfiguration {
 

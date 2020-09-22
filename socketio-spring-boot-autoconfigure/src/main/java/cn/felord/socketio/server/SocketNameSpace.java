@@ -17,5 +17,5 @@ public @interface SocketNameSpace {
      *
      * @return the string [ ]
      */
-    String nameSpace();
+    String value();
 }

@@ -34,7 +34,8 @@ public class SocketIOServerLifecycle implements SmartLifecycle, ApplicationConte
 
           beansWithAnnotation.forEach((k,bean)->{
               SocketNameSpace annotation = bean.getClass().getAnnotation(SocketNameSpace.class);
-              String s = annotation.nameSpace();
+              String s = annotation.value();
+              log.info("registering socket.io namespace {} and Listener {}",s,bean.getClass().getSimpleName());
               socketIOServer.addNamespace(s).addListeners(bean);
           });
 
